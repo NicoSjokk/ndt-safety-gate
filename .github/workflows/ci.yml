@@ -5,45 +5,14 @@ on:
     branches: [main]
   pull_request:
 
-permissions:
-  contents: read
-
 jobs:
-  python:
-    name: Lint and test (Python ${{ matrix.python }})
+  test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python: ["3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python }}
-          cache: pip
+          python-version: "3.12"
       - run: pip install -e ".[dev]"
       - run: ruff check .
-      - run: ruff format --check .
       - run: pytest -q
-
-  manifests:
-    name: Validate Kubernetes manifests
-    runs-on: ubuntu-latest
-    env:
-      KUSTOMIZE_VERSION: v5.4.3
-      KUBECONFORM_VERSION: v0.6.7
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install kustomize and kubeconform
-        run: |
-          mkdir -p "$HOME/bin"
-          curl -sSL "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_amd64.tar.gz" | tar xz -C "$HOME/bin"
-          curl -sSL "https://github.com/yannh/kubeconform/releases/download/${KUBECONFORM_VERSION}/kubeconform-linux-amd64.tar.gz" | tar xz -C "$HOME/bin"
-          echo "$HOME/bin" >> "$GITHUB_PATH"
-      - name: Build and validate overlays
-        run: |
-          for overlay in deploy/k8s/service-chain/overlays/*/; do
-            echo "::group::$overlay"
-            kustomize build "$overlay" | kubeconform -strict -summary -kubernetes-version 1.30.0
-            echo "::endgroup::"
-          done

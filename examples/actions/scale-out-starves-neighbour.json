@@ -1,7 +1,0 @@
-{
-  "type": "scale",
-  "namespace": "service-chain",
-  "target": "processor",
-  "params": { "replicas": 9 },
-  "rationale": "aggressive over-provisioning; looks fine for processor, but eats the CPU its neighbours need"
-}

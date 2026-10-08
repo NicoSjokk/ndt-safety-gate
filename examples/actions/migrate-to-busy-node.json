@@ -1,7 +1,0 @@
-{
-  "type": "migrate",
-  "namespace": "service-chain",
-  "target": "store",
-  "params": { "to_node": "worker-1" },
-  "rationale": "drain worker-3 for maintenance by moving store to worker-1"
-}

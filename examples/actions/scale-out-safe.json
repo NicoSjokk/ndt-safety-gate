@@ -1,7 +1,0 @@
-{
-  "type": "scale",
-  "namespace": "service-chain",
-  "target": "processor",
-  "params": { "replicas": 4 },
-  "rationale": "processor p95 latency is trending up under current load; add one replica"
-}

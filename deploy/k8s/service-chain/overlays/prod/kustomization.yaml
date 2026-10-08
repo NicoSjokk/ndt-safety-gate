@@ -1,9 +1,0 @@
-# Applied to the prod cluster. The twin is built from the same base so the two
-# start identical; the gate then syncs live state (replicas, placement, load) into it.
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - ../../base
-labels:
-  - pairs:
-      ndt.ntnu.no/role: prod

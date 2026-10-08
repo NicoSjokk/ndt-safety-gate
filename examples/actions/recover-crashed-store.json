@@ -1,6 +1,0 @@
-{
-  "type": "recover",
-  "namespace": "service-chain",
-  "target": "store",
-  "rationale": "one store replica is in CrashLoopBackOff; restart it"
-}

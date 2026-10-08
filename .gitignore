@@ -1,16 +1,6 @@
 __pycache__/
-*.py[cod]
 *.egg-info/
 .venv/
-venv/
 .pytest_cache/
 .ruff_cache/
-.coverage
-htmlcov/
-dist/
-build/
-.terraform/
-*.tfstate
-*.tfstate.*
 .env
-results/
