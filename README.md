@@ -21,21 +21,21 @@ Communication Technology), 2026–2027.
 
 ```mermaid
 flowchart LR
-    T[(Prometheus<br/>telemetry)] --> A[AI agent<br/>LLM, tool calling]
-    I[Intent / SLOs] --> A
-    A -- proposed action<br/>JSON --> G
+    T[("Prometheus<br/>telemetry")] --> A["AI agent<br/>LLM, tool calling"]
+    I["Intent / SLOs"] --> A
+    A -->|"proposed action (JSON)"| P
 
-    subgraph G[Safety gate]
+    subgraph G["Safety gate"]
         direction TB
-        P[1 · Policy check<br/>static rules] --> W[2 · Twin test<br/>apply + replay load]
-        W --> S[3 · SLO check<br/>target and neighbours]
+        P["1. Policy check<br/>static rules"] --> W["2. Twin test<br/>apply + replay load"]
+        W --> S["3. SLO check<br/>target and neighbours"]
     end
 
-    W <-. sync state .-> TW[(Twin cluster)]
-    S -- approve --> PR[(Prod cluster)]
-    S -- reject + reasons --> A
-    P -- reject + reasons --> A
-    PR -. real outcome vs.<br/>twin prediction .-> F[Fidelity metric]
+    W <-.->|"sync state"| TW[("Twin cluster")]
+    S -->|"approve"| PR[("Prod cluster")]
+    S -->|"reject + reasons"| A
+    P -->|"reject + reasons"| A
+    PR -.->|"real outcome vs. twin prediction"| F["Fidelity metric"]
 ```
 
 1. **Policy check.** Cheap static rules: protected namespaces, replica bounds, allowed nodes. Forbidden actions never reach the twin.
