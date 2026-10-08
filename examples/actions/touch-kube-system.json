@@ -1,0 +1,7 @@
+{
+  "type": "scale",
+  "namespace": "kube-system",
+  "target": "coredns",
+  "params": { "replicas": 0 },
+  "rationale": "example of an action the static policy must stop before the twin is used"
+}

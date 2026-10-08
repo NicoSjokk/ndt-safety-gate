@@ -1,0 +1,41 @@
+{
+  "nodes": {
+    "worker-1": 4,
+    "worker-2": 4,
+    "worker-3": 4
+  },
+  "deployments": {
+    "frontend": {
+      "rps": 600,
+      "rps_per_replica": 500,
+      "cpu_per_replica": 0.5,
+      "base_latency_ms": 10,
+      "placement": {
+        "worker-1": 1,
+        "worker-2": 1
+      }
+    },
+    "processor": {
+      "rps": 900,
+      "rps_per_replica": 400,
+      "cpu_per_replica": 1.0,
+      "base_latency_ms": 20,
+      "placement": {
+        "worker-1": 1,
+        "worker-2": 1,
+        "worker-3": 1
+      }
+    },
+    "store": {
+      "rps": 900,
+      "rps_per_replica": 600,
+      "cpu_per_replica": 1.0,
+      "base_latency_ms": 15,
+      "placement": {
+        "worker-2": 1,
+        "worker-3": 1
+      },
+      "crashed": 1
+    }
+  }
+}
