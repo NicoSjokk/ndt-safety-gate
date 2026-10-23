@@ -21,3 +21,16 @@ def apply(action: ProposedAction, namespace: str) -> None:
     subprocess.run(kubectl_args(action, namespace), check=True)
     rollout = ["kubectl", "rollout", "status", f"deployment/{action.target}", "-n", namespace]
     subprocess.run(rollout, check=True)
+
+
+def undo_args(action: ProposedAction, namespace: str) -> list[str]:
+    """The kubectl command that reverts the action in the given namespace."""
+    if action.type is ActionType.RESIZE:
+        return ["kubectl", "rollout", "undo", f"deployment/{action.target}", "-n", namespace]
+    raise NotImplementedError(f"undo for '{action.type}' actions is not supported yet")
+
+
+def undo(action: ProposedAction, namespace: str) -> None:
+    subprocess.run(undo_args(action, namespace), check=True)
+    rollout = ["kubectl", "rollout", "status", f"deployment/{action.target}", "-n", namespace]
+    subprocess.run(rollout, check=True)
