@@ -1,7 +1,5 @@
 # ndt-safety-gate
 
-Specialization project at NTNU (autumn 2026), continuing as a master's thesis.
-
 An AI agent that manages a network should not change production directly. This project is about
 testing its proposed actions (scale, migrate, recover) in a network digital twin first, and only
 letting them through if the service levels still hold.
