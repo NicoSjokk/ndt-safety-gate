@@ -1,4 +1,4 @@
-from ndt_gate.slo import check_p95
+from ndt_gate.slo import check_p95, ratios
 
 BEFORE = {"frontend-podinfo": 0.0048, "backend-podinfo": 0.00475}
 
@@ -11,3 +11,6 @@ def test_cpu_limit_on_twin_is_caught():
 def test_noise_near_the_bucket_floor_is_ignored():
     after = {"frontend-podinfo": 0.0049, "backend-podinfo": 0.0048}
     assert check_p95(BEFORE, after) == {}
+
+def test_ratios_use_the_floor():
+    assert ratios({"a": 0.004, "b": 0.01}, {"a": 0.045, "b": 0.01}) == {"a": 9.0, "b": 1.0}  

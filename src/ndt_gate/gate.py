@@ -7,7 +7,7 @@ import time
 from ndt_gate import kube, telemetry
 from ndt_gate.models import ProposedAction
 from ndt_gate.policy import PolicyConfig, check_policy
-from ndt_gate.slo import check_p95
+from ndt_gate.slo import check_p95, ratios
 
 TWIN = "twin"
 SETTLE_SECONDS = 90  # Prometheus averages over the last minute, so wait a bit longer than that
@@ -37,7 +37,20 @@ def run(action: ProposedAction) -> bool:
         return False
 
     print(f"PASSED on the twin, applying to {action.namespace}")
+    
+    prod_before = telemetry.p95_latency(action.namespace)
     kube.apply(action, action.namespace)
+    print(f"applied to {action.namespace}, waiting {SETTLE_SECONDS}s to check it...")
+    time.sleep(SETTLE_SECONDS)
+    prod_after = telemetry.p95_latency(action.namespace)
+
+    print("predicted change (twin):", ratios(before, after))
+    print("actual change (prod):   ", ratios(prod_before, prod_after))
+
+    if check_p95(prod_before, prod_after):
+        print("prod got worse even though the twin passed, rolling prod back")
+        kube.undo(action, action.namespace)
+        return False
     return True
 
 

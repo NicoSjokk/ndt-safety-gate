@@ -9,3 +9,11 @@ def check_p95(before, after, max_ratio=2.0):
         if new is not None and new > max(old, FLOOR) * max_ratio:
             worse[job] = (old, new)
     return worse
+
+def ratios(before, after):
+    """How many times slower each service got (1.0 means no change)."""
+    return {
+        job: round(max(after[job], FLOOR) / max(old, FLOOR), 2)
+        for job, old in before.items()
+        if job in after
+    }
