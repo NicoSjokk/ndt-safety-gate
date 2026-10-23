@@ -9,6 +9,7 @@ class ActionType(StrEnum):
     SCALE = "scale"
     MIGRATE = "migrate"
     RECOVER = "recover"
+    RESIZE = "resize"
 
 
 @dataclass(frozen=True)
