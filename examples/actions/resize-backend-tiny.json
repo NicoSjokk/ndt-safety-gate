@@ -1,0 +1,1 @@
+{"type": "resize", "namespace": "prod", "target": "backend-podinfo", "params": {"cpu_limit": "50m"}}
