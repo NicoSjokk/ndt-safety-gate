@@ -1,6 +1,6 @@
-from ndt_gate.kube import kubectl_args
+from ndt_gate.kube import kubectl_args, undo_args
 from ndt_gate.models import ProposedAction
-from ndt_gate.kube import undo_args
+
 
 def test_resize_runs_in_the_namespace_we_ask_for():
     action = ProposedAction.from_dict(
